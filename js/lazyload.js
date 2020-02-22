@@ -10,8 +10,6 @@ function BackgroundNode({ node, loadedClassName }) {
 
   return {
     node,
-
-    // onComplete is called after the image is done loading.
     load: onComplete => {
       let img = new Image();
       img.onload = show(onComplete);
@@ -40,13 +38,8 @@ function BackgroundLazyLoader({ selector, loadedClassName } = defaultOptions) {
 
       if (obj) {
         obj.load(() => {
-          // Unobserve the node:
           observer.unobserve(target);
-          // Remove this node from our list:
           nodes = nodes.filter(n => !n.node.isSameNode(target));
-
-          // If there are no remaining unloaded nodes,
-          // disconnect the observer since we don't need it anymore.
           if (!nodes.length) {
             observer.disconnect();
           }
